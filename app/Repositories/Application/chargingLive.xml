@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="https://services.mtnsyr.com/webservices" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://services.mtnsyr.com/webservices" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:s="http://www.w3.org/2001/XMLSchema">
+<wsdl:types>
+<s:schema targetNamespace="https://services.mtnsyr.com/webservices" elementFormDefault="qualified">
+<s:element name="takeAction">
+<s:complexType>
+<s:sequence>
+<s:element type="s:string" name="username" maxOccurs="1" minOccurs="0"/>
+<s:element type="s:string" name="password" maxOccurs="1" minOccurs="0"/>
+<s:element type="s:string" name="service_name" maxOccurs="1" minOccurs="0"/>
+<s:element type="s:string" name="gsm" maxOccurs="1" minOccurs="0"/>
+<s:element type="s:string" name="category" maxOccurs="1" minOccurs="0"/>
+<s:element type="s:double" name="fee" maxOccurs="1" minOccurs="1"/>
+<s:element type="s:string" name="action" maxOccurs="1" minOccurs="0"/>
+<s:element type="s:string" name="msgno" maxOccurs="1" minOccurs="0"/>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element name="takeActionResponse">
+<s:complexType>
+<s:sequence>
+<s:element type="s:int" name="takeActionResult" maxOccurs="1" minOccurs="1"/>
+</s:sequence>
+</s:complexType>
+</s:element>
+<s:element type="s:int" name="int"/>
+</s:schema>
+</wsdl:types>
+<wsdl:message name="takeActionSoapIn">
+<wsdl:part name="parameters" element="tns:takeAction"/>
+</wsdl:message>
+<wsdl:message name="takeActionSoapOut">
+<wsdl:part name="parameters" element="tns:takeActionResponse"/>
+</wsdl:message>
+<wsdl:message name="takeActionHttpPostIn">
+<wsdl:part type="s:string" name="username"/>
+<wsdl:part type="s:string" name="password"/>
+<wsdl:part type="s:string" name="service_name"/>
+<wsdl:part type="s:string" name="gsm"/>
+<wsdl:part type="s:string" name="category"/>
+<wsdl:part type="s:string" name="fee"/>
+<wsdl:part type="s:string" name="action"/>
+<wsdl:part type="s:string" name="msgno"/>
+</wsdl:message>
+<wsdl:message name="takeActionHttpPostOut">
+<wsdl:part name="Body" element="tns:int"/>
+</wsdl:message>
+<wsdl:portType name="ChargingServiceSoap">
+<wsdl:operation name="takeAction">
+<wsdl:input message="tns:takeActionSoapIn"/>
+<wsdl:output message="tns:takeActionSoapOut"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:portType name="ChargingServiceHttpPost">
+<wsdl:operation name="takeAction">
+<wsdl:input message="tns:takeActionHttpPostIn"/>
+<wsdl:output message="tns:takeActionHttpPostOut"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding type="tns:ChargingServiceSoap" name="ChargingServiceSoap">
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="takeAction">
+<soap:operation style="document" soapAction="https://services.mtnsyr.com/webservices/takeAction"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding type="tns:ChargingServiceSoap" name="ChargingServiceSoap12">
+<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="takeAction">
+<soap12:operation style="document" soapAction="https://services.mtnsyr.com/webservices/takeAction"/>
+<wsdl:input>
+<soap12:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap12:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:binding type="tns:ChargingServiceHttpPost" name="ChargingServiceHttpPost">
+<http:binding verb="POST"/>
+<wsdl:operation name="takeAction">
+<http:operation location="/takeAction"/>
+<wsdl:input>
+<mime:content type="application/x-www-form-urlencoded"/>
+</wsdl:input>
+<wsdl:output>
+<mime:mimeXml part="Body"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="ChargingService">
+<wsdl:port name="ChargingServiceSoap" binding="tns:ChargingServiceSoap">
+<soap:address location="https://services.mtnsyr.com:7443/General/mtnservices/chargingservice.asmx"/>
+</wsdl:port>
+<wsdl:port name="ChargingServiceSoap12" binding="tns:ChargingServiceSoap12">
+<soap12:address location="https://services.mtnsyr.com:7443/General/mtnservices/chargingservice.asmx"/>
+</wsdl:port>
+<wsdl:port name="ChargingServiceHttpPost" binding="tns:ChargingServiceHttpPost">
+<http:address location="https://services.mtnsyr.com:7443/General/mtnservices/chargingservice.asmx"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
